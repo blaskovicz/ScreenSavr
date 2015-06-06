@@ -8,8 +8,8 @@ Every **5** seconds, ScreenSavr will move your mouse a few pixels
 from its last location if it hasn't been manually moved.
 
 # Usage
- 1. Download Java (at least 1.6)
- 2. Download `ScreenSavr.jar` from the bin directory
+ 1. Download [Java](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (at least 1.6)
+ 2. Download [ScreenSavr.jar](https://github.com/blaskovicz/ScreenSavr/raw/master/bin/ScreenSavr.jar) from the bin directory
  3. Run the jar (double-click in windows)
  4. Exit the app by clicking the close button on its dialog
 

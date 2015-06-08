@@ -9,12 +9,13 @@ import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Robot;
 import java.awt.Toolkit;
+import java.util.Calendar;
 
 import javax.swing.BoxLayout;
 import javax.swing.JDialog;
 
 public class Main {
-	private static final int CHECK_INTERVAL_MILLIS = 1000 * 5;
+	private static final int CHECK_INTERVAL_MILLIS = 1000 * 60 * 10;
 	public static void main(String[] args) throws Exception {
 		Robot robot = new Robot();
 		//Main.gatherMouseCoordinates(robot);
@@ -78,20 +79,27 @@ public class Main {
 				robot.mouseMove(newX, newY);
 				Point newPoint = new Point(newX, newY);
 				System.out.println(
-					"Coordinates automatically changed on cycle " + cycle + " from " +
-					lastPoint + " to " + newPoint
+					"Coordinates auto-changed on cycle " + cycle + " from " +
+					lastPoint + " to " + newPoint +
+					" at " + nowTime()
 				);
 				lastPoint = newPoint;
 			}
 			// otherwise, update our tracking position
 			else {
 				System.out.println(
-					"Coordinates manually changed on cycle " + cycle + " from " +
-					lastPoint + " to " + currentPoint
+					"Coordinates manually-changed on cycle " + cycle + " from " +
+					lastPoint + " to " + currentPoint + 
+					" at " + nowTime()
 				);
 				lastPoint = currentPoint;
 			}
 			Thread.sleep(CHECK_INTERVAL_MILLIS);
 		}
+	}
+	
+	public static String nowTime(){
+		Calendar now = Calendar.getInstance();
+		return now.getTime().toString();
 	}
 }

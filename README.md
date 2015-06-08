@@ -4,7 +4,7 @@
 
 # Synopsis
 
-Every **5** seconds, ScreenSavr will move your mouse a few pixels
+Every **5** minutes, ScreenSavr will move your mouse a few pixels
 from its last location if it hasn't been manually moved.
 
 # Usage

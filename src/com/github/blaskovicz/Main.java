@@ -15,7 +15,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JDialog;
 
 public class Main {
-	private static final int CHECK_INTERVAL_MILLIS = 1000 * 60 * 10;
+	private static final int CHECK_INTERVAL_MILLIS = 1000 * 60 * 5;
 	public static void main(String[] args) throws Exception {
 		Robot robot = new Robot();
 		//Main.gatherMouseCoordinates(robot);

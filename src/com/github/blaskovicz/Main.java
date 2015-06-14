@@ -4,6 +4,7 @@ import java.awt.Container;
 import java.awt.Dialog.ModalityType;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.MouseInfo;
 import java.awt.Point;
@@ -13,18 +14,37 @@ import java.util.Calendar;
 
 import javax.swing.BoxLayout;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class Main {
-	private static final int CHECK_INTERVAL_MILLIS = 1000 * 60 * 5;
+	private static double checkIntervalSeconds = 300;
 	public static void main(String[] args) throws Exception {
 		Robot robot = new Robot();
-		//Main.gatherMouseCoordinates(robot);
 		Main.holdWakelock(robot);
 	}
 
-	// move the mouse a couple pixels every CHECK_INTERVAL_MILLIS if it hasn't changed position
+	// move the mouse a couple pixels every checkIntervalSeconds if it hasn't changed position
 	private static void holdWakelock(Robot robot) throws Exception {
-		JDialog runningDialog = new JDialog();
+		final String spinnerText = "Select the interval to wait before moving the mouse";
+		final JLabel spinnerLabel = new JLabel(spinnerText + " (currently " + checkIntervalSeconds + " seconds)");
+		final Thread thread = Thread.currentThread();
+		final SpinnerModel checkIntervalOptions = new SpinnerNumberModel(checkIntervalSeconds, 1, 999, 0.5);
+		JSpinner checkIntervalSelector = new JSpinner(checkIntervalOptions);
+		checkIntervalSelector.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				checkIntervalSeconds = (Double) checkIntervalOptions.getValue();
+				spinnerLabel.setText(spinnerText + " (currently " + checkIntervalSeconds + " seconds)");
+				thread.interrupt();
+			}
+		});
+		JDialog runningDialog = new JDialog((Dialog)null);
 		runningDialog.addWindowListener(new WindowListener() {
 			
 			@Override
@@ -52,11 +72,13 @@ public class Main {
 			public void windowDeactivated(WindowEvent e) {}
 		});
 		
-		// TODO make check interval configurable via dialog
 		Container container = runningDialog.getContentPane();
 		BoxLayout box = new BoxLayout(container, BoxLayout.Y_AXIS);
 		container.setLayout(box);
+		container.add(spinnerLabel);
+		container.add(checkIntervalSelector);
 		runningDialog.setTitle("ScreenSavr");
+		runningDialog.pack();
 		runningDialog.setVisible(true);
 		runningDialog.setModalityType(ModalityType.MODELESS);
 		
@@ -94,7 +116,13 @@ public class Main {
 				);
 				lastPoint = currentPoint;
 			}
-			Thread.sleep(CHECK_INTERVAL_MILLIS);
+			try {
+				System.out.println("Sleeping for " + checkIntervalSeconds + " seconds");
+				Thread.sleep((long) (checkIntervalSeconds * 1000));
+			}
+			catch(InterruptedException interrupt){
+				System.out.println("Thread woke up early due to interrupt: " + interrupt.getMessage());
+			}
 		}
 	}
 	

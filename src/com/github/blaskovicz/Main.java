@@ -1,21 +1,20 @@
 package com.github.blaskovicz;
 
 import java.awt.Container;
-import java.awt.Dialog.ModalityType;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.awt.Dialog;
+import java.awt.Dialog.ModalityType;
 import java.awt.Dimension;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Robot;
 import java.awt.Toolkit;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.Calendar;
 
 import javax.swing.BoxLayout;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
@@ -23,6 +22,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 public class Main {
+	private static final String VERSION = "v0.1.0";
 	private static double checkIntervalSeconds = 300;
 	public static void main(String[] args) throws Exception {
 		Robot robot = new Robot();
@@ -77,7 +77,7 @@ public class Main {
 		container.setLayout(box);
 		container.add(spinnerLabel);
 		container.add(checkIntervalSelector);
-		runningDialog.setTitle("ScreenSavr");
+		runningDialog.setTitle("ScreenSavr " + VERSION);
 		runningDialog.pack();
 		runningDialog.setVisible(true);
 		runningDialog.setModalityType(ModalityType.MODELESS);
